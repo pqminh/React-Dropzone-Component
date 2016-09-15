@@ -195,6 +195,7 @@ DropzoneComponent = React.createClass({
 
         this.dropzone.on('addedfile', (file) => {
             if (file) {
+                file._id = this.props.id || "";
                 var files = this.state.files;
                 var dropzone = this.dropzone;
                 var maxFiles = this.props.config.maxFiles;
@@ -219,6 +220,7 @@ DropzoneComponent = React.createClass({
                 if (!files) {
                     files = [];
                 }
+
                 files.push(file);
                 this.setState({files: files});
             }
