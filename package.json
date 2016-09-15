@@ -1,19 +1,14 @@
 {
-  "name": "react-dropzone-component",
+  "name": "react-dropzone-js",
   "description": "A Dropzone Component for ReactJS",
-  "version": "1.1.0",
+  "version": "1.0.3",
   "license": "MIT",
-  "repository": "https://github.com/felixrieseberg/React-Dropzone",
+  "repository": "https://github.com/pqminh/react-dropzone-js",
   "maintainers": [
     {
-      "name": "Felix Rieseberg",
-      "email": "felix@felixrieseberg.com",
-      "web": "http://www.felixrieseberg.com"
-    },
-    {
-      "name": "Erik Schlegel",
-      "email": "erik.schlegel@gmail.com",
-      "web": "erikschlegel.com"
+      "name": "Minhpq",
+      "email": "pqminh31100@gmail.com",
+      "web": ""
     }
   ],
   "peerDependencies": {

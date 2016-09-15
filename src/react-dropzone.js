@@ -108,13 +108,13 @@ DropzoneComponent = React.createClass({
     componentWillUpdate: function() {
         var djsConfigObj, postUrlConfigObj;
 
-        djsConfigObj = this.props.djsConfig ? this.props.djsConfig : {};        
+        djsConfigObj = this.props.djsConfig ? this.props.djsConfig : {};
         try {
-            postUrlConfigObj = this.props.config.postUrl ? {url: this.props.config.postUrl} : {};            
-        } catch (err) {   
+            postUrlConfigObj = this.props.config.postUrl ? {url: this.props.config.postUrl} : {};
+        } catch (err) {
             postUrlConfigObj = {};
         }
-        
+
         this.dropzone.options = Helpers.extend(true, {}, this.dropzone.options, djsConfigObj, postUrlConfigObj);
     },
 
@@ -196,13 +196,30 @@ DropzoneComponent = React.createClass({
         this.dropzone.on('addedfile', (file) => {
             if (file) {
                 var files = this.state.files;
-
+                var dropzone = this.dropzone;
+                var maxFiles = this.props.config.maxFiles;
+                for (var i = 0; i < dropzone.files.length - 1; i++) {
+                    if(dropzone.files[i].name === file.name &&
+                       dropzone.files[i].size === file.size &&
+                       dropzone.files[i].lastModified === file.lastModified ){
+                       dropzone.removeFile(dropzone.files[i]);
+                    }
+                }
+                if(maxFiles){
+                  if(dropzone.files.length > maxFiles){
+                    for (var i = 0; i < dropzone.files.length; i++) {
+                        if(dropzone.files[i].name !== file.name &&
+                           dropzone.files[i].size !== file.size &&
+                           dropzone.files[i].lastModified !== file.lastModified ){
+                           dropzone.removeFile(dropzone.files[i]);
+                        }
+                    }
+                  }
+                }
                 if (!files) {
                     files = [];
                 }
-
-                files.push(file)
-
+                files.push(file);
                 this.setState({files: files});
             }
         });
