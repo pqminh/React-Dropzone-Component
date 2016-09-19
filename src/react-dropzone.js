@@ -6,7 +6,7 @@ var React = require('react'),
     IconComponent = require('./icon'),
     Dropzone, DropzoneComponent;
 
-DropzoneComponent = React.createClass({
+DropzoneComponent = React.createClass({displayName: "DropzoneComponent",
     /**
      * Ensure we always have props to work with.
      */
@@ -14,7 +14,8 @@ DropzoneComponent = React.createClass({
         return {
           djsConfig: {},
           config: {},
-          eventHandlers: {}
+          eventHandlers: {},
+          id: ""
         }
     },
 
@@ -36,7 +37,7 @@ DropzoneComponent = React.createClass({
         } else {
             options = defaults;
         }
-
+        options.id = this.props.id;
         return options;
     },
 
@@ -73,7 +74,7 @@ DropzoneComponent = React.createClass({
                 // of the dropzone until we're done here.
                 this.queueDestroy = true;
 
-                var destroyInterval = window.setInterval(() => {
+                var destroyInterval = window.setInterval(function()  {
                     if (this.queueDestroy = false) {
                         return window.clearInterval(destroyInterval);
                     }
@@ -82,7 +83,7 @@ DropzoneComponent = React.createClass({
                         this.dropzone = this.dropzone.destroy();
                         return window.clearInterval(destroyInterval);
                     }
-                }, 500);
+                }.bind(this), 500);
             } else {
                 this.dropzone = this.dropzone.destroy();
             }
@@ -129,23 +130,23 @@ DropzoneComponent = React.createClass({
 
         if (config.showFiletypeIcon && config.iconFiletypes && (!files || files.length < 1)) {
             for (var i = 0; i < this.props.config.iconFiletypes.length; i = i + 1) {
-                icons.push(<IconComponent filetype={this.props.config.iconFiletypes[i]} key={"icon-component" + i} />);
+                icons.push(React.createElement(IconComponent, {filetype: this.props.config.iconFiletypes[i], key: "icon-component" + i}));
             }
         }
 
         if (!this.props.config.postUrl && this.props.action) {
             return (
-                <form action={this.props.action} className={className}>
-                    {icons}
-                    {this.props.children}
-                </form>
+                React.createElement("form", {action: this.props.action, className: className},
+                    icons,
+                    this.props.children
+                )
             );
         } else {
             return (
-                <div className={className}>
-                    {icons}
-                    {this.props.children}
-                </div>
+                React.createElement("div", {className: className},
+                    icons,
+                    this.props.children
+                )
             );
         }
     },
@@ -193,7 +194,7 @@ DropzoneComponent = React.createClass({
             }
         }
 
-        this.dropzone.on('addedfile', (file) => {
+        this.dropzone.on('addedfile', function(file)  {
             if (file) {
                 file._id = this.props.id || "";
                 var files = this.state.files;
@@ -224,9 +225,9 @@ DropzoneComponent = React.createClass({
                 files.push(file);
                 this.setState({files: files});
             }
-        });
+        }.bind(this));
 
-        this.dropzone.on('removedfile', (file) => {
+        this.dropzone.on('removedfile', function(file)  {
             if (file) {
                 var files = this.state.files;
 
@@ -240,7 +241,7 @@ DropzoneComponent = React.createClass({
                     this.setState({files: files});
                 }
             }
-        });
+        }.bind(this));
     }
 });
 
