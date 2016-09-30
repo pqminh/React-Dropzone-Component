@@ -199,25 +199,13 @@ DropzoneComponent = React.createClass({displayName: "DropzoneComponent",
                 file._id = this.props.id || "";
                 var files = this.state.files;
                 var dropzone = this.dropzone;
-                var maxFiles = this.props.config.maxFiles;
-                for (var i = 0; i < dropzone.files.length - 1; i++) {
-                    if(dropzone.files[i].name === file.name &&
-                       dropzone.files[i].size === file.size &&
-                       dropzone.files[i].lastModified === file.lastModified ){
+
+                if(dropzone.files.length > dropzone.options.maxFiles){
+                    for (var i = 0; i < dropzone.files.length - 1; i++) {
                        dropzone.removeFile(dropzone.files[i]);
                     }
                 }
-                if(maxFiles){
-                  if(dropzone.files.length > maxFiles){
-                    for (var i = 0; i < dropzone.files.length; i++) {
-                        if(dropzone.files[i].name !== file.name &&
-                           dropzone.files[i].size !== file.size &&
-                           dropzone.files[i].lastModified !== file.lastModified ){
-                           dropzone.removeFile(dropzone.files[i]);
-                        }
-                    }
-                  }
-                }
+
                 if (!files) {
                     files = [];
                 }
