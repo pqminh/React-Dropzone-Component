@@ -1,7 +1,7 @@
 {
   "name": "react-dropzone-js",
   "description": "A Dropzone Component for ReactJS",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "repository": "https://github.com/pqminh/react-dropzone-js",
   "maintainers": [

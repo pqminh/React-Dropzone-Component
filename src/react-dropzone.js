@@ -215,6 +215,13 @@ DropzoneComponent = React.createClass({displayName: "DropzoneComponent",
             }
         }.bind(this));
 
+        this.dropzone.on('maxfilesexceeded', function(file)  {
+            if (file) {
+              this.removeAllFiles();
+              this.addFile(file);
+            }
+        }.bind(this));
+
         this.dropzone.on('removedfile', function(file)  {
             if (file) {
                 var files = this.state.files;
